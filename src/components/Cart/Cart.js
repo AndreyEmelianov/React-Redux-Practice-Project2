@@ -19,6 +19,7 @@ const Cart = () => {
 							quantity: item.quantity,
 							total: item.totalPrice,
 							price: item.price,
+							id: item.id,
 						}}
 					/>
 				))}
