@@ -34,6 +34,7 @@ const Products = () => {
 						title={item.title}
 						price={item.price}
 						description={item.description}
+						id={item.id}
 					/>
 				))}
 			</ul>
