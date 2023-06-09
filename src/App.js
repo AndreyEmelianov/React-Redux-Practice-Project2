@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 
-import { sendCartData } from './store/cart-slice';
+import { sendCartData, getCartData } from './store/cart-slice';
 import StatusBarMessage from './components/UI/StatusBarMessage';
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
@@ -17,12 +17,20 @@ function App() {
 	const dispatchAction = useDispatch();
 
 	useEffect(() => {
+		dispatchAction(getCartData());
+		// eslint-disable-next-line
+	}, []);
+
+	useEffect(() => {
 		if (isInitialRunning) {
 			isInitialRunning = false;
 			return;
 		}
 
-		dispatchAction(sendCartData(cart));
+		if (cart.isCartContentChanged) {
+			dispatchAction(sendCartData(cart));
+		}
+		// eslint-disable-next-line
 	}, [cart]);
 
 	return (
