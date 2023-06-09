@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { mainActions } from './store/main-slice';
 
+import { sendCartData } from './store/cart-slice';
 import StatusBarMessage from './components/UI/StatusBarMessage';
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
@@ -14,53 +14,15 @@ function App() {
 	const cart = useSelector((state) => state.cart);
 	const statusMessage = useSelector((state) => state.main.statusMessage);
 
-	const dispatchFunction = useDispatch();
+	const dispatchAction = useDispatch();
 
 	useEffect(() => {
-		const sendCartData = async () => {
-			dispatchFunction(
-				mainActions.showStatusMessage({
-					status: 'pending',
-					title: 'Отправка данных',
-					message: 'Данные корзины отправляются',
-				})
-			);
-
-			const response = await fetch(
-				'https://japan-kitchen-default-rtdb.firebaseio.com/cart.json',
-				{
-					method: 'PUT',
-					body: JSON.stringify(cart),
-				}
-			);
-
-			if (!response.ok) {
-				throw new Error('Ошибка при отправке данных на сервер');
-			}
-
-			dispatchFunction(
-				mainActions.showStatusMessage({
-					status: 'success',
-					title: 'Отправка данных успешна',
-					message: 'Данные корзины успешно отправлены на сервер!',
-				})
-			);
-		};
-
 		if (isInitialRunning) {
 			isInitialRunning = false;
 			return;
 		}
 
-		sendCartData().catch((e) => {
-			dispatchFunction(
-				mainActions.showStatusMessage({
-					status: 'error',
-					title: 'Ошибка запроса',
-					message: 'Ошибка при отправке данных на сервер',
-				})
-			);
-		});
+		dispatchAction(sendCartData(cart));
 	}, [cart]);
 
 	return (

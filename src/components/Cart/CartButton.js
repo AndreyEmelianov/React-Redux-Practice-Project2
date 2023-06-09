@@ -5,10 +5,10 @@ import styles from './CartButton.module.css';
 
 const CartButton = () => {
 	const itemsQuantity = useSelector((state) => state.cart.itemsQuantity);
-	const dispatchFunction = useDispatch();
+	const dispatchAction = useDispatch();
 
 	const cartVisibilityHandler = () => {
-		dispatchFunction(mainActions.toggleCartVisibility());
+		dispatchAction(mainActions.toggleCartVisibility());
 	};
 
 	return (

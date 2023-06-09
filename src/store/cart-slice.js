@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { mainActions } from './main-slice';
 
 const initialState = {
 	items: [],
@@ -48,6 +49,52 @@ const cartSlice = createSlice({
 		// },
 	},
 });
+
+export const sendCartData = (cartData) => {
+	return async (dispatchAction) => {
+		dispatchAction(
+			mainActions.showStatusMessage({
+				status: 'pending',
+				title: 'Отправка данных',
+				message: 'Данные корзины отправляются',
+			})
+		);
+
+		const sendHttpRequest = async () => {
+			const response = await fetch(
+				'https://japan-kitchen-default-rtdb.firebaseio.com/cart.json',
+				{
+					method: 'PUT',
+					body: JSON.stringify(cartData),
+				}
+			);
+
+			if (!response.ok) {
+				throw new Error('Ошибка при отправке данных на сервер');
+			}
+		};
+
+		try {
+			await sendHttpRequest();
+
+			dispatchAction(
+				mainActions.showStatusMessage({
+					status: 'success',
+					title: 'Отправка данных успешна',
+					message: 'Данные корзины успешно отправлены на сервер!',
+				})
+			);
+		} catch (error) {
+			dispatchAction(
+				mainActions.showStatusMessage({
+					status: 'error',
+					title: 'Ошибка запроса',
+					message: 'Ошибка при отправке данных на сервер',
+				})
+			);
+		}
+	};
+};
 
 export const cartActions = cartSlice.actions;
 export default cartSlice;

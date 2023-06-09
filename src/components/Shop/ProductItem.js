@@ -7,7 +7,7 @@ import styles from './ProductItem.module.css';
 const ProductItem = (props) => {
 	const { title, price, description, id } = props;
 
-	const dispatchFunction = useDispatch();
+	const dispatchAction = useDispatch();
 
 	// const cart = useSelector((state) => state.cart);
 
@@ -39,9 +39,9 @@ const ProductItem = (props) => {
 		// 		items: updatedItems,
 		// 	};
 
-		// 	dispatchFunction(cartActions.updateCart(updatedCart));
+		// 	dispatchAction(cartActions.updateCart(updatedCart));
 
-		dispatchFunction(
+		dispatchAction(
 			cartActions.addItem({
 				id,
 				title,

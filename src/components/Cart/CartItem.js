@@ -6,10 +6,10 @@ import styles from './CartItem.module.css';
 const CartItem = (props) => {
 	const { title, quantity, total, price, id } = props.item;
 
-	const dispatchFunction = useDispatch();
+	const dispatchAction = useDispatch();
 
 	const addItemHandler = () => {
-		dispatchFunction(
+		dispatchAction(
 			cartActions.addItem({
 				id,
 				title,
@@ -19,7 +19,7 @@ const CartItem = (props) => {
 	};
 
 	const removeItemHandler = () => {
-		dispatchFunction(cartActions.removeItem(id));
+		dispatchAction(cartActions.removeItem(id));
 	};
 
 	return (
